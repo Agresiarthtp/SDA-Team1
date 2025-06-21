@@ -33,7 +33,7 @@ class User {
  }
 }
 
-//Kelas Admin (Child Class)
+//Class Admin (Child Class)
 class Admin extends User {
  public Admin(String nama, String id) {
      super(nama, id);
