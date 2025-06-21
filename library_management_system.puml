@@ -1,0 +1,53 @@
+
+@startuml
+' Define the User class
+class User {
+    - String name
+    - String id
+    + borrowBook(library: Library, title: String)
+    + returnBook(library: Library, title: String)
+}
+
+' Define the Admin class that inherits from User
+class Admin {
+    - String adminLevel
+    + addBook(library: Library, title: String, author: String)
+    + removeBook(library: Library, title: String)
+    + viewBooks()
+    + searchBook(title: String)
+}
+
+' Define the Member class that inherits from User
+class Member {
+    - String memberType
+    + borrowBook(library: Library, title: String)
+    + returnBook(library: Library, title: String)
+    + viewBooks()
+    + searchBook(title: String)
+}
+
+' Define the Library class
+class Library {
+    - ArrayList<Book> books
+    + addBook(title: String, author: String)
+    + removeBook(title: String)
+    + findBookByTitle(title: String): Book
+    + displayAvailableBooks()
+}
+
+' Define the Book class
+class Book {
+    - String title
+    - String author
+    - boolean available
+    + borrow()
+    + returnBook()
+}
+
+' Define inheritance relations
+User <|-- Admin
+User <|-- Member
+
+' Define associations
+Library "1" -- "0..*" Book : manages >
+@enduml
