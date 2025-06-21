@@ -63,7 +63,7 @@ class Member extends User {
  }
 }
 
-//Kelas Perpustakaan
+//Kelas Perpustakaan Buku
 class Perpustakaan {
     Buku[] daftarBuku;
     int jumlahBuku;
