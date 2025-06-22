@@ -1,0 +1,22 @@
+# Ignore compiled output
+out/
+
+# Ignore IDE specific files
+.idea/
+*.iml
+
+# Ignore compiled class files
+*.class
+
+# Ignore package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Ignore virtual machine crash logs
+hs_err_pid*
+replay_pid*
