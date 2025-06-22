@@ -1,3 +1,5 @@
+package belajar;
+
 import java.util.Scanner;
 
 class Buku {
