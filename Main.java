@@ -1,5 +1,3 @@
-package belajar;
-
 import java.util.Scanner;
 
 class Buku {
@@ -229,7 +227,7 @@ class Perpustakaan {
 
 //Kelas Main (Main Program)
 // Time Complexity -> Loop berjalan terus (infinite loop while (true)), tapi setiap opsi berisi operasi yang paling kompleks hanya O(n)
- // Space Complexity -> Variabel lokal seperti judul, penulis, dan objek Scanner, Admin, Member, dll → O(1) secara total karena ukurannya tetap
+// Space Complexity -> Variabel lokal seperti judul, penulis, dan objek Scanner, Admin, Member, dll → O(1) secara total karena ukurannya tetap
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
