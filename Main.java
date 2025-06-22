@@ -18,7 +18,7 @@ class Buku {
     }
 }
 
-//Kelas User (Parent Class)
+//Class User (Parent Class)
 class User {
  String nama;
  String id;
@@ -86,6 +86,8 @@ class Perpustakaan {
     }
     
  // Menambahkan buku
+ // Time Complexity: 0(1) -> Operasi penambahan hanya dilakukan satu kali di index tertentu (konstan)
+ // Space Complexity: 0(1) -> Tidak menambah struktur data baru, hanya menambah elemen ke array yang sudah ada 
     public void tambahBuku(Buku buku) {
         if (jumlahBuku < daftarBuku.length) {
             daftarBuku[jumlahBuku++] = buku;
@@ -95,7 +97,11 @@ class Perpustakaan {
         }
     }
 
+  
+
  // Menghapus buku
+ // Time Complexity: 0(n) -> Terburuknya: harus mencari di seluruh array (O(n)), lalu melakukan pergeseran elemen sisa (O(n)), total tetap O(n)
+ // Space Complexity: 0(1) -> Tidak membuat array baru; hanya memindahkan elemen di tempat
     public void hapusBuku(String judul) {
         for (int i = 0; i < jumlahBuku; i++) {
             if (daftarBuku[i].judul.equalsIgnoreCase(judul)) {
@@ -110,7 +116,10 @@ class Perpustakaan {
         System.out.println("Buku tidak ditemukan.");
     }
 
+
  // Mencari buku berdasarkan judul
+ // Time Complexity: 0(n) -> Harus mengecek satu per satu seluruh array
+ // Space Complexity: 0(1) -> Tidak ada alokasi tambahan
     public void cariBuku(String judul) {
         boolean ditemukan = false;
         for (int i = 0; i < jumlahBuku; i++) {
@@ -124,7 +133,9 @@ class Perpustakaan {
         }
     }
 
-// Menampilkan semua buku
+ // Menampilkan semua buku
+ // Time Complexity: 0(n) -> Tergantung jumlah buku yang ada
+ // Space Complexity: 0(1) -> Tidak menyimpan data baru, hanya mencetak
     public void tampilkanBuku() {
         System.out.println("\n--- Daftar Buku tersedia di Perpustakaan ---");
         if (jumlahBuku == 0) {
@@ -217,6 +228,8 @@ class Perpustakaan {
 
 
 //Kelas Main (Main Program)
+// Time Complexity -> Loop berjalan terus (infinite loop while (true)), tapi setiap opsi berisi operasi yang paling kompleks hanya O(n)
+// Space Complexity -> Variabel lokal seperti judul, penulis, dan objek Scanner, Admin, Member, dll → O(1) secara total karena ukurannya tetap
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
