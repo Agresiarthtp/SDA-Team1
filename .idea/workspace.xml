@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="071bfd1c-671b-4b21-ae1a-0b89791ef4f1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Admin.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Buku.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Member.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Perpustakaan.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SDA-Team1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SDA-Team1.iml" afterDir="false" />
-    </list>
+    <list default="true" id="071bfd1c-671b-4b21-ae1a-0b89791ef4f1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +45,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "TriaBranch",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/age/Personal/BINUS/Struktur Data dan Algoritmaa/kelas teori/SDA-Team1",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
