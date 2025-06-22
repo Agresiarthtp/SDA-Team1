@@ -61,16 +61,28 @@ class Member extends User {
  public void tampilkanBuku(Perpustakaan perpustakaan) {
      perpustakaan.tampilkanBuku();
  }
+ public void pinjamBuku(Perpustakaan perpustakaan, String judul) {
+     perpustakaan.pinjamBuku(judul);
+ }
+
+ public void kembalikanBuku(Perpustakaan perpustakaan, String judul) {
+     perpustakaan.kembalikanBuku(judul);
+
+ }
 }
 
 //Kelas Perpustakaan Buku
 class Perpustakaan {
     Buku[] daftarBuku;
     int jumlahBuku;
+    Buku [] daftarPinjam;
+    int jumlahPinjam;
 
     public Perpustakaan(int kapasitas) {
         daftarBuku = new Buku[kapasitas];
         jumlahBuku = 0;
+        daftarPinjam = new Buku[kapasitas];
+        jumlahPinjam = 0;
     }
     
  // Menambahkan buku
@@ -112,23 +124,105 @@ class Perpustakaan {
         }
     }
 
- // Menampilkan semua buku
+// Menampilkan semua buku
     public void tampilkanBuku() {
+        System.out.println("\n--- Daftar Buku tersedia di Perpustakaan ---");
         if (jumlahBuku == 0) {
-            System.out.println("Tidak ada buku di perpustakaan.");
+            System.out.println("Tidak ada buku tersedia di perpustakaan.");
         } else {
             for (int i = 0; i < jumlahBuku; i++) {
-                System.out.println(daftarBuku[i]);
+                System.out.println((i+1)+ "." + daftarBuku[i]);
+            }
+            System.out.println("----------------------");    
+        }
+
+        System.out.println("\n--- Daftar Buku di Perpustakaan yang dipinjam---");
+        if (jumlahPinjam == 0) {
+            System.out.println("Tidak ada buku  di perpustakaan yang dipinjam.");
+        } else {
+            for (int i = 0; i < jumlahPinjam; i++) {
+                System.out.println((i+1)+ "." + daftarPinjam[i]);
+            }
+            System.out.println("----------------------");
+        }
+        
+    }
+
+ // Meminjam buku
+    public void pinjamBuku(String judul){
+        Buku bukuDipinjam = null;
+        int indexBuku = -1;
+
+        //Memastikan buku yang ingin dipinjam ada
+        for (int i = 0; i < jumlahBuku; i++){
+            if(daftarBuku[i].judul.equalsIgnoreCase(judul)){
+                bukuDipinjam = daftarBuku[i];
+                indexBuku = i ;
+                break;
             }
         }
+
+        //Memasukkan buku yang dipinjam ke daftar pinjam
+        if (bukuDipinjam != null){
+            daftarPinjam[jumlahPinjam++] = bukuDipinjam;
+        
+        //menghapuskan buku yang dipinjam dari daftar buku 
+
+            for (int j = indexBuku; j < jumlahBuku; j++){
+                daftarBuku[j] = daftarBuku[j+1];
+            }
+
+            daftarBuku[--jumlahBuku]= null;
+            System.out.println("Buku '" + judul + "' berhasil dipinjam.  ");
+        }
+        else {
+            System.out.println("Gagal! Buku '" + judul + "' tidak tersedia atau tidak ditemukan.");
+        }
+
+    }
+
+    // Mengembalikan Buku
+    public void kembalikanBuku(String judul){
+        Buku bukuDikembalikan = null;
+        int indexPinjam = -1;
+
+        //mencari buku di daftar peminjaman
+
+        for (int i = 0; i < jumlahPinjam; i++){
+            if(daftarPinjam[i].judul.equalsIgnoreCase(judul)){
+                bukuDikembalikan = daftarPinjam[i];
+                indexPinjam = i;
+                break;
+            }
+        }
+        //kembalikan buku dari daftar pinjam ke daftar buku
+        if(bukuDikembalikan != null){
+            daftarBuku[jumlahBuku++] = bukuDikembalikan;
+        
+            for (int j = indexPinjam; j < jumlahPinjam - 1; j++){
+                daftarPinjam[j] = daftarPinjam[j+1];
+                }
+        
+            daftarPinjam[--jumlahPinjam] = null;
+            
+            System.out.println("Buku '" + judul + "' berhasil dikembalikan");
+        }
+        else {
+            System.out.println("Buku '" + judul + "' sedang tidak dipinjam/tidak ada");
+        }
+
     }
 }
+
+
 
 //Kelas Main (Main Program)
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Perpustakaan perpustakaan = new Perpustakaan(100);
+
+        perpustakaan.tambahBuku(new Buku("Belajar Git", "Aggresia Retha"));
 
         Admin admin = new Admin("Admin1", "A001");
         Member member = new Member("Member1", "M001");
@@ -139,10 +233,20 @@ public class Main {
             System.out.println("2. Menghapus Buku (Admin)");
             System.out.println("3. Mencari Buku Berdasarkan Judul (Member)");
             System.out.println("4. Tampilkan Semua Buku (Member)");
-            System.out.println("5. Keluar");
+            System.out.println("5. Pinjam Buku (member)");
+            System.out.println("6. Kembalikan Buku (member)");
+            System.out.println("7. Keluar");
             System.out.print("Pilih opsi: ");
-            int pilihan = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+
+            int pilihan = -1;
+            try {
+                pilihan = scanner.nextInt();
+            } catch (Exception e) {
+                System.out.println("Input tidak valid! Harap masukkan angka.");
+                scanner.next(); // Membersihkan buffer scanner
+                continue;
+            }
+            scanner.nextLine(); // Membersihkan newline character dari buffer
 
             switch (pilihan) {
                 case 1:
@@ -167,11 +271,24 @@ public class Main {
                 	member.tampilkanBuku(perpustakaan);
                     break;
                 case 5:
+                    System.out.println("\n--- Menu Pinjam Buku ---");
+                    System.out.print("Masukkan judul buku yang ingin dipinjam: ");
+                    String judulPinjam = scanner.nextLine();
+                    // PERBAIKAN: Peminjaman dilakukan oleh member
+                    member.pinjamBuku(perpustakaan, judulPinjam);
+                    break;
+                case 6:
+                    System.out.println("\n--- Menu Kembalikan Buku ---");
+                    System.out.print("Masukkan judul buku yang ingin dikembalikan: ");
+                    String judulKembali = scanner.nextLine();
+                    member.kembalikanBuku(perpustakaan, judulKembali);
+                    break;                
+                case 7:
                     System.out.println("Keluar dari sistem.");
                     scanner.close();
                     return;
                 default:
-                    System.out.println("Pilihan tidak valid.");
+                    System.out.println("Pilihan tidak valid, silakan pilih angka dari 1-7.");
             }
         }
     }
