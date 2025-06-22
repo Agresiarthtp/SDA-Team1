@@ -1,3 +1,5 @@
+package belajar;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -42,6 +44,10 @@ class Admin extends User {
      perpustakaan.tambahBuku(buku);
  }
 
+ public void tambahBuku(Perpustakaan perpustakaan, Buku buku, boolean showMessage) {
+     perpustakaan.tambahBuku(buku, showMessage);
+ }
+
  public void hapusBuku(Perpustakaan perpustakaan, String judul) {
      perpustakaan.hapusBuku(judul);
  }
@@ -83,11 +89,19 @@ class Perpustakaan {
     }
     
  // Menambahkan buku
- // Time Complexity: 0(1) -> Operasi penambahan hanya dilakukan satu kali di index tertentu (konstan)
- // Space Complexity: 0(1) -> Tidak menambah struktur data baru, hanya menambah elemen ke array yang sudah ada 
+ // Time Complexity: O(1) -> Operasi penambahan pada ArrayList umumnya memiliki kompleksitas waktu konstan
+ // Space Complexity: O(1) -> Tidak menambah struktur data baru, hanya menambah elemen ke ArrayList yang sudah ada 
     public void tambahBuku(Buku buku) {
         daftarBuku.add(buku);
         System.out.println("Buku berhasil ditambahkan.");
+    }
+
+    // Overload tambahBuku dengan parameter showMessage
+    public void tambahBuku(Buku buku, boolean showMessage) {
+        daftarBuku.add(buku);
+        if (showMessage) {
+            System.out.println("Buku berhasil ditambahkan.");
+        }
     }
 
   
@@ -112,10 +126,12 @@ class Perpustakaan {
  // Space Complexity: 0(1) -> Tidak ada alokasi tambahan
     public void cariBuku(String judul) {
         boolean ditemukan = false;
+        System.out.println("\nHasil pencarian untuk '" + judul + "':");
         for (Buku b : daftarBuku) {
             if (b.judul.equalsIgnoreCase(judul)) {
                 System.out.println("Buku ditemukan: " + b);
                 ditemukan = true;
+                break; // Berhenti setelah menemukan buku pertama
             }
         }
         if (!ditemukan) {
@@ -156,11 +172,11 @@ class Perpustakaan {
             if(daftarBuku.get(i).judul.equalsIgnoreCase(judul)){
                 Buku bukuDipinjam = daftarBuku.remove(i);
                 daftarPinjam.add(bukuDipinjam);
-                System.out.println("Buku '" + judul + "' berhasil dipinjam.");
+                System.out.println("Buku \"" + judul + "\" berhasil dipinjam.");
                 return;
             }
         }
-        System.out.println("Gagal! Buku '" + judul + "' tidak tersedia atau tidak ditemukan.");
+        System.out.println("Gagal! Buku \"" + judul + "\" tidak tersedia atau tidak ditemukan.");
     }
     // Mengembalikan Buku
     public void kembalikanBuku(String judul){
@@ -168,11 +184,11 @@ class Perpustakaan {
             if(daftarPinjam.get(i).judul.equalsIgnoreCase(judul)){
                 Buku bukuDikembalikan = daftarPinjam.remove(i);
                 daftarBuku.add(bukuDikembalikan);
-                System.out.println("Buku '" + judul + "' berhasil dikembalikan");
+                System.out.println("Buku \"" + judul + "\" berhasil dikembalikan.");
                 return;
             }
         }
-        System.out.println("Buku '" + judul + "' sedang tidak dipinjam/tidak ada");
+        System.out.println("Buku \"" + judul + "\" sedang tidak dipinjam/tidak ada.");
     }
 }
 
@@ -186,8 +202,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Perpustakaan perpustakaan = new Perpustakaan(100);
 
-        perpustakaan.tambahBuku(new Buku("Belajar Git", "Aggresia Retha"));
-        perpustakaan.tambahBuku(new Buku("From Zero to Advance C++", "Muhamad Lutfi Zaelani"));
+        // Menambahkan buku default tanpa menampilkan pesan
+        perpustakaan.tambahBuku(new Buku("Atomic Habits", "James Clear"), false);
+        perpustakaan.tambahBuku(new Buku("Filosofi Teras", "Henry Manampiring"), false);
 
         Admin admin = new Admin("Admin1", "A001");
         Member member = new Member("Member1", "M001");
@@ -208,7 +225,7 @@ public class Main {
                 pilihan = scanner.nextInt();
             } catch (Exception e) {
                 System.out.println("Input tidak valid! Harap masukkan angka.");
-                scanner.next(); // Membersihkan buffer scanner
+                scanner.nextLine(); // Membersihkan seluruh baris di buffer scanner
                 continue;
             }
             scanner.nextLine(); // Membersihkan newline character dari buffer
